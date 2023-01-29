@@ -1,0 +1,13 @@
+.modal-header{
+    background-color: #6c757d;
+    color: white;
+}
+
+.modal-header .btn-close{
+    background-color: white;
+}
+
+.form-control:focus{
+    box-shadow: 0 0 0 0.13rem #6c757d !important;
+}
+

@@ -1,0 +1,12 @@
+Section 1 :
+
+Teachers = 11/12/2022
+parents = 12/12/2022
+Students = 13/12/2022
+
+Section2 : 
+Matricula = 14/12/2022
+Notas = 17/12/2022
+Boletas = 20/12/2022
+certificacion = 22/12/2022
+
