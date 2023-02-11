@@ -38,6 +38,7 @@
     if(isset($_REQUEST['subjects'])){
         $grade = $_REQUEST['subjects'];
 
+        $data = null;
         $query = mysqli_query($conn, "SELECT * FROM asignaturas where grade = '$grade'");
         while($rows = mysqli_fetch_assoc($query)){
             $data[] = $rows;
@@ -283,10 +284,10 @@
 
 //BUSCAR PADRES
 
-        if(isset($_REQUEST['search_teachers'])){
-            $teacher = $_POST['name'];
+        if(isset($_REQUEST['search_parents'])){
+            $parent = $_POST['name'];
 
-            $query = mysqli_query($conn, "SELECT * FROM teachers WHERE `name` LIKE '%$teacher%'");
+            $query = mysqli_query($conn, "SELECT * FROM parents WHERE `name` LIKE '%$parent%'");
             $i = 0;
 
             while($rows = mysqli_fetch_assoc($query)){
@@ -295,14 +296,29 @@
                       <td>$i</td>
                       <td>$rows[name]</td>
                       <td>$rows[tel]</td>
-                      <td>$rows[email]</td>
-                      <td>$rows[area]</td>
-                      <td style='white-space:nowrap;'>
-                          <button class='btn btn-sm edit btn-success text-light' id='$rows[id]' data-bs-toggle='modal' i data-bs-target='#add_teacher_container'><img src='../icons/edit.svg' width='16'height='16'></button>
-                          <button class='btn btn-sm delete btn-danger text-light' id='$rows[id]'><img src='../icons/trash-2.svg' width='16'height='16'></button>
-                      </td>
+                      <td>$rows[address]</td>
+                      <td>$rows[student_name]</td>
                     </tr>";
             }
+            
+        }
+
+//BUSCAR ALUMNOS PARA GENERAR CALIFICACIONES
+
+        if(isset($_REQUEST['search_alumns_grades'])){
+            $student = $_POST['name'];
+            $grado = $_POST['grade'];
+
+            if($student != ""){
+
+            $query = mysqli_query($conn, "SELECT * FROM students WHERE `name` LIKE '$student%' AND `grade` = '$grado'");
+            $i = 0;
+
+            while($rows = mysqli_fetch_assoc($query)){
+                $i++;
+                echo "<span class='names_r' id='$rows[id]'>$rows[name]</span>";
+            }
+        }
             
         }
 
@@ -386,6 +402,8 @@
                     </tr>";
             }
         }
+
+
             
         }
     

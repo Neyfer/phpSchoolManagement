@@ -64,4 +64,42 @@ $(document).ready(function(){
         age.keyup(buscar);
     }
 
+
+    //BUSQUEDA DE ALUMNOS AL GENERAR NOTAS
+
+    if(document.URL.includes("generar_calificaciones.php")){
+        let search_bar = $(".search_bar");
+        let grade = $("#grado");
+        $("#recomendations").html(``);
+        $("#recomendations").hide(); 
+        search_bar.keyup(function(){
+            $.ajax({
+                url: `../php/server.php?search_alumns_grades`,
+                type: "post",
+                data: {'name': search_bar[0].value, 'grade': grade[0].value},
+                success: function(res){
+                    $("#recomendations").show(); 
+                    $("#recomendations").html(res);
+
+                    if(res != ""){
+                        $(".names_r").each(function(){
+                            $(this).click(()=>{
+                                console.log("clicked")
+                                search_bar[0].value = this.textContent;
+                                search_bar[0].id = this.id;
+                                $("#recomendations").html(``); 
+                                $("#recomendations").hide(); 
+                            })
+                        })
+                    }
+                }
+            })
+
+            if(search_bar[0].value == undefined){
+                $("#recomendations").html(``);
+                $("#recomendations").hide(); 
+            }
+        })
+    }
+
 })

@@ -127,6 +127,8 @@
 
         mysqli_query($conn, "INSERT INTO students (`name`, `tel_a`, `grade`, `ident`, `birth`, `age`, `address`, `encargado`, `tel_p`)
                                VALUES('$name_a', '$tel_a', '$grade', '$ident', '$birth', '$age', '$address', '$encargado', '$tel_p')");
+
+        mysqli_query($conn, "INSERT INTO parents (`student_name`, `name`, `tel`, `address`) VALUES ('$name_a', '$encargado', '$tel_p', '$address')");
     }
 ?>
 </body>

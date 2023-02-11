@@ -32,8 +32,9 @@
 
 
                     <div class=" col-sm-10 container padding-3"> <br>
-                            <form action="" method="post">
-                                <label for="grade" class="form-label">Grado:</label><select name="grade" id="grado" class="form-select">
+                            <form action="" method="post" class="grades_form">
+                                <h5>Generar boleta de calificaciones</h5>
+                                <label for="grade" class="form-label" >Grado:</label><select name="grade" id="grado" class="form-select">
                                     <option value="0"></option>
                                     <option value="7">Septimo</option>
                                     <option value="8">Octavo</option>
@@ -43,17 +44,76 @@
                                     <option value="12">Duodecimo</option>
                                 </select>
 
-                                <label for="grade" class="form-label">ALumno:</label><select name="grade" id="grado" class="form-select">
+                                <div id="semester">
+                                    <label for="semester" class="form-label">Semestre:</label><select name="semester" id="semester" class="form-select semester_select">
+                                        <option value="0"></option>
+                                        <option value="1">I Semestre</option>
+                                        <option value="2">II Semestre</option>
+                                    </select>
+                                </div>
+                                
+
+                                <label for="grade" class="form-label">Alumno:</label><select name="type" id="type" class="form-select">
                                     <option value="0"></option>
-                                    <option value="7">Todo el grado</option>
-                                    <option value="8">Alumno en especifico</option>
+                                    <option value="1">Todo el grado</option>
+                                    <option value="2">Alumno en especifico</option>
                                 </select>
+
+                                <div id="name">
+                                    <label for="name" class="form-label">Nombre:</label>
+                                    <input type="text" name="name" id="" autocomplete="off" class="form-control search_bar" placeholder="">
+                                    <div class="form-control" id="recomendations"></div>
+                                </div>
+
+                                <button class="form-control btn  btn-dark" id="generate">Generar</button>
 
                             </form>
                     </div>
 
+                    <style>
+                        .grades_form{
+                            width: 500px;
+                            height: max-content;
+                            padding: 33px;
+                            background-color: #fafafa;
+                            margin: auto;
+                            margin-top: 6%;
+                            border-radius: 3%;
+                        }
+
+                        h5{
+                            text-align: center;
+                        }
+
+                        .form-select{
+                            margin-bottom: 10px;
+                        }
+
+                        .btn{
+                            margin-top: 20px;
+                        }
+
+                        #recomendations{
+                            max-height: 85.6;
+                            height: 85.6;
+                            overflow-y: scroll; 
+                        }
+
+                        .names_r:hover{
+                            cursor: pointer;
+                            color:blue;
+                        }
+
+                        .names_r{
+                            display: block;
+                            width: 100%;
+                        }
+
+                        
+                    </style>
 
 <script src="../js/main.js"></script>
+<script src="../js/busquedas.js"></script>
 
 </body>
 </html>

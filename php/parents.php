@@ -35,7 +35,6 @@
                 <input class="form-control me-2" type="text" id='search-bar' placeholder="Buscar" aria-label="Search">
               </div>
 
-            <button type="button" class="btn btn-success btn-sm text-light text-center" data-bs-toggle="modal" data-bs-target="#add_teacher_container">Agregar</button> 
             <br><br>
           <div class="t-c" style="max-width: 100vw; overflow-x: auto;">
           <table class="table table-bordered">
@@ -45,15 +44,14 @@
                     <th scope="col">Nombre</th>
                     <th scope="col">Telefono</th>
                     <th scope="col">Direccion</th>
-                    <th scope="col">DNI</th>
-                    <th scope="col">Acciones</th>
+                    <th scope="col">Alumno</th>
                 </tr>
             </thead>
 
-            <tbody class="text-center parents_body_table">
+            <tbody class="text-center" id="parents_body_table">
               <?php
               include('mysql.php');
-                  $query = mysqli_query($conn, "SELECT * FROM teachers");
+                  $query = mysqli_query($conn, "SELECT * FROM parents");
                   $num = mysqli_num_rows($query);
                   $i = 0;
                   while($rows = mysqli_fetch_assoc($query)){
@@ -62,12 +60,8 @@
                       <td>$i</td>
                       <td>$rows[name]</td>
                       <td>$rows[tel]</td>
-                      <td>$rows[email]</td>
-                      <td>$rows[area]</td>
-                      <td style='white-space:nowrap;'>
-                          <button class='btn btn-sm edit btn-success text-light' id='$rows[id]' data-bs-toggle='modal' i data-bs-target='#add_teacher_container'><img src='../icons/edit.svg' width='16'height='16'></button>
-                          <button class='btn btn-sm delete btn-danger text-light' id='$rows[id]'><img src='../icons/trash-2.svg' width='16'height='16'></button>
-                      </td>
+                      <td>$rows[address]</td>
+                      <td>$rows[student_name]</td>
                     </tr>";
                   }
               ?>
@@ -76,54 +70,13 @@
           </div>
             
 
-              <div class="modal  fade" id="add_teacher_container" tabindex="-1" aria-hidden="true">
-              <div class="modal-dialog">
-                <div class="modal-content">
-                  <div class="modal-header">
-                    <h1 class="modal-title fs-5">Ingresar Nuevo Maestro</h1>
-                    <button type="button" class="btn-close text-light" data-bs-dismiss="modal" aria-label="Close"></button>
-                  </div>
-                  <div class="modal-body">
-                    <form action="teachers.php" method="post">
-                      <div class="mb-3">
-                        <label for="name" class="col-form-label">Nombre</label>
-                        <input type="text" class="form-control" name="name" id="recipient-name">
-                      </div>
-                      <div class="mb-3">
-                        <label for="tel" class="col-form-label">Telefono:</label>
-                        <input type="text" class="form-control" name="tel" id="">
-                      </div>
-
-                      <div class="mb4">
-                        <label for="mail" class="col-form-label">Direccion</label>
-                        <input type="text" name="mail" class="form-control">
-                      </div>
-
-                      <div class="mb5">
-                        <label for="area" class="col-form-label">Area</label>
-                        <input type="text" name="area" class="form-control">
-                      </div>
-
-                      </div>
-                  <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                    <button type="submit" name="add-teacher" class="btn btn-success">Agregar</button>
-                  </div>
-                </div>
-                    </form>
-                  
-              </div>
-              </div>
-                    </div>
-                    </div>
-
                     <footer style="text-align:center;">Copyright &copy 2023 by Neyfer Coto - All Rights Reserved</footer>
                 </div>
 
 
 
 <script src="../js/main.js"></script>
-<script src="../js/parents.js"></script>
+<script src="../js/busquedas.js"></script>
 
 <?php
     include("mysql.php");

@@ -157,10 +157,10 @@ $(document).ready(function(){
 
             function write_subjects(data){
                 subject.html("<option value='0'></option>");
+                console.log(data);
                 fetch(`../php/server.php?subjects=${data}`)
                 .then(response => response.json())
                 .then(data=>{
-                    console.log(data);
                     subject.removeAttr('disabled');
                     subject.removeAttr('aria-label');
                     console.log(data);
@@ -186,12 +186,12 @@ $(document).ready(function(){
                 $("#semester-selector").show();
 
                 //VER QUE SEMESTRE ESTA BTP
-                if(grade[0].value == "10" && parseInt(parcial[0].value) === 2){
+                if(grade[0].value == "10" && parcial[0].value == "2"){
                     grade2 = "10.5";
-                }else if(grade[0].value == "11" && parseInt(parcial[0].value) === 2){
+                }else if(grade[0].value == "11" && parcial[0].value == "2"){
                     grade2 = "11.5";
-                }else if(grade[0].value == "12" && parseInt(parcial[0].value) === 2){
-                    grade = "12.5";
+                }else if(grade[0].value == "12" && parcial[0].value == "2"){
+                    grade2 = "12.5";
                 }
                 else{
                     grade2 = grade[0].value;
@@ -523,6 +523,66 @@ $(document).ready(function(){
                     $("#horas")[0].value = "";
                 }
             })
+        })
+    }
+
+
+    if(document.URL.includes("generar_calificaciones.php")){
+        $("#name").hide();
+        $("#semester").hide();
+        let btp = false;
+        let name_field = false;
+
+        $("#grado").change(function(){
+            if(parseInt(this.value) > 9 ){
+                $("#semester").show();
+                btp = true;
+            }else{
+                $("#semester").hide();
+                btp = false;
+            }
+        });
+
+        $("#type").change(function(){
+            if(parseInt(this.value) == 2 ){
+                $("#name").show();
+                name_field = true;
+            }else{
+                $("#name").hide();
+                name_field = false;
+            }
+        });
+
+        $("#generate").click(function(e){
+            e.preventDefault();
+            let grado = $("#grado");
+            let semester = $(".semester_select");
+            let name = $("#name");
+            let alumn = $("#type");
+            if($("#grado")[0].value != "0" && $("#type")[0].value != "0"){
+                //GENERAR NOTAS PARA TODO UN GRADO BTP
+                //GENERAR PARA BTP PRIMER SEMESTRE
+                if(btp == true && semester[0].value == "1"){
+                    location.href = `generador_notas_todo_btp.php?id=${grado[0].value}`;
+                }
+
+                //GENERAR PARA BTP SEGUNDO SEMESTRE
+                if(btp == true && semester[0].value == "2"){
+                    location.href = `generador_notas_todo_btp2.php?id=${grado[0].value}`;
+                }
+            }
+            //GENERAR NOTAS DE UN ALUMNO DE BTP EN ESPECIFICO
+            if($("#grado")[0].value != "0" && $("#type")[0].value != "2"){
+                //GENERAR PARA BTP PRIMER SEMESTRE
+                if(btp == true && semester[0].value == "1"){
+                    location.href = `generador_notas_btp.php?id=${grado[0].value}`;
+                }
+
+                //GENERAR PARA BTP SEGUNDO SEMESTRE
+                if(btp == true && semester[0].value == "2"){
+                    location.href = `generador_notas_btp2.php?id=${grado[0].value}`;
+                }
+            }
         })
     }
 })

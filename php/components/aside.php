@@ -132,14 +132,6 @@
                boletas de calificacion
             </a>
           </li>
-          <li class="nav-item">
-            <a class="nav-link" href="#">
-              <span data-feather="file-text" class="align-text-bottom"></span>
-              <img src="../icons/certificacion_estudios.svg
-               " style="vertical-align: baseline" width="15" height="15">
-               Certificacion de Estudios
-            </a>
-          </li>
         </ul>
 
         <h6 class="px-3 sidebar-heading mt-1 mb-1 text-muted text-uppercase">Pagina web</h6>
