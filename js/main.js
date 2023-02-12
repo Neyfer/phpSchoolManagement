@@ -236,7 +236,6 @@ $(document).ready(function(){
                                     <th scope="col">Promedio</th>
                                 </tr>
                             </thead>
-
                             <tbody class="text-center" id="body-students-table">
                                 <tr>
                                     <td></td>
@@ -261,7 +260,6 @@ $(document).ready(function(){
                                 <th scope="col">Promedio</th>
                             </tr>
                         </thead>
-
                         <tbody class="text-center" id="body-students-table">
                             <tr>
                                 <td></td>
@@ -549,6 +547,7 @@ $(document).ready(function(){
                 name_field = true;
             }else{
                 $("#name").hide();
+                $("#name").value = "";
                 name_field = false;
             }
         });
@@ -557,32 +556,59 @@ $(document).ready(function(){
             e.preventDefault();
             let grado = $("#grado");
             let semester = $(".semester_select");
-            let name = $("#name");
+            let name = $(".search_bar");
             let alumn = $("#type");
             if($("#grado")[0].value != "0" && $("#type")[0].value != "0"){
+
+                if(parseInt(grado[0].value) > 9){
                 //GENERAR NOTAS PARA TODO UN GRADO BTP
                 //GENERAR PARA BTP PRIMER SEMESTRE
+
+                if($("#type")[0].value == "1"){
                 if(btp == true && semester[0].value == "1"){
-                    location.href = `generador_notas_todo_btp.php?id=${grado[0].value}`;
+                    window.open(`generador_notas_todo_btp.php?id=${grado[0].value}`, '_blank');
                 }
 
                 //GENERAR PARA BTP SEGUNDO SEMESTRE
                 if(btp == true && semester[0].value == "2"){
-                    location.href = `generador_notas_todo_btp2.php?id=${grado[0].value}`;
+                    window.open(`generador_notas_todo_btp2.php?id=${grado[0].value}`, '_blank');
                 }
             }
-            //GENERAR NOTAS DE UN ALUMNO DE BTP EN ESPECIFICO
-            if($("#grado")[0].value != "0" && $("#type")[0].value != "2"){
+            //GENERAR NOTAS PARA UN ALUMNO EN ESPECIFICO BTP
+
+            if($("#type")[0].value == "2"){
                 //GENERAR PARA BTP PRIMER SEMESTRE
                 if(btp == true && semester[0].value == "1"){
-                    location.href = `generador_notas_btp.php?id=${grado[0].value}`;
+                    window.open(`generador_notas_btp.php?id=${name[0].id}`, '_blank');
                 }
 
                 //GENERAR PARA BTP SEGUNDO SEMESTRE
                 if(btp == true && semester[0].value == "2"){
-                    location.href = `generador_notas_btp2.php?id=${grado[0].value}`;
+                    window.open(`generador_notas_btp2.php?id=${name[0].id}`, '_blank');
                 }
             }
+
+        }
+
+            if(parseInt(grado[0].value) < 10){
+                //GENERAR NOTAS PARA TODO UN GRADO CICLO
+                //GENERAR PARA BTP PRIMER SEMESTRE
+
+                if($("#type")[0].value == "1"){
+                    if(btp == false){
+                        window.open(`generador_notas_todo_ciclo.php?id=${grado[0].value}`, '_blank');
+                    }
+                }
+
+                if($("#type")[0].value == "2"){
+                    if(btp == false){
+                        window.open(`generador_notas_ciclo.php?id=${name[0].id}`, '_blank');
+                    }
+                }
+            }
+            }
+                
+            
         })
     }
 })

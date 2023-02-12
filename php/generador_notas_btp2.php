@@ -1,14 +1,8 @@
 <?php
+
 include "mysql.php";
-
-require("fpdf/fpdf.php");
-    
-$pdf = new FPDF();
-    
 $id = $_GET["id"];
-
-        
-    $alumn_data = null;
+$alumn_data = null;
 
 $alumnos = mysqli_query($conn, "SELECT * FROM students WHERE id = $id");
 
@@ -17,7 +11,40 @@ while($rows = mysqli_fetch_assoc($alumnos)){
 }
 
 
+require("fpdf/fpdf.php");
 
+    class PDF extends FPDF{
+        
+        function Header(){
+            include "mysql.php";
+            $id = $_GET["id"];
+            $alumn_data = null;
+
+            $alumnos = mysqli_query($conn, "SELECT * FROM students WHERE id = $id");
+
+            while($rows = mysqli_fetch_assoc($alumnos)){
+                $alumn_data[] = $rows; 
+            }
+
+            $this -> SetFont("Arial", "B", 11);
+            $this -> Cell(180, 5, "Secretaria de educacion", 0, 1, 'C');
+            $this -> Cell(180, 5, "Direccion Departamental de Santa Barbara", 0, 1, 'C');
+            $this -> SetFont("Arial", "B", 16);
+            $this -> Cell(180, 10, 'CEMG. "MARCO AURELIO SOTO"', 0, 1, 'C');
+            $this -> SetFont("Arial", "B", 11);
+            $this -> Cell(180, 5, "El Zapote Santa Barbara Honduras C.A.", 0, 1, 'C');
+            $this -> SetFont("Arial", "", 11);
+            $this -> Cell(180, 5, "Tel. 96742223//97012137", 0, 1, 'C');
+            $this -> SetLineWidth(0.1);
+            $this -> Line(30, 40, 170, 40);
+
+            $this->Image("../img/mono.png", 35, 15, -1250);
+            $this->Image("../img/mono.png", 147, 15, -1250);
+
+            $this -> SetFont("Arial", "B", 11);
+            $this -> Cell(250, 5, "Bol.Calif. " . $alumn_data[0]['ident'], 0, 1, 'C');
+        }
+    }
 
     $grade = $alumn_data[0]['grade'];
     $grade2 = null;
@@ -52,32 +79,13 @@ while($rows = mysqli_fetch_assoc($alumnos)){
             break;
     }
 
-
+$pdf = new PDF();
 $pdf -> AddPage("P", "Letter");
-
-            $pdf -> SetFont("Arial", "B", 11);
-            $pdf -> Cell(180, 5, "Secretaria de educacion", 0, 1, 'C');
-            $pdf -> Cell(180, 5, "Direccion Departamental de Santa Barbara", 0, 1, 'C');
-            $pdf -> SetFont("Arial", "B", 16);
-            $pdf -> Cell(180, 10, 'CEMG. "MARCO AURELIO SOTO"', 0, 1, 'C');
-            $pdf -> SetFont("Arial", "B", 11);
-            $pdf -> Cell(180, 5, "El Zapote Santa Barbara Honduras C.A.", 0, 1, 'C');
-            $pdf -> SetFont("Arial", "", 11);
-            $pdf -> Cell(180, 5, "Tel. 96742223//97012137", 0, 1, 'C');
-            $pdf -> SetLineWidth(0.1);
-            $pdf -> Line(30, 40, 170, 40);
-
-            $pdf->Image("../img/mono.png", 35, 15, -1250);
-            $pdf->Image("../img/mono.png", 147, 15, -1250);
-
-            $pdf -> SetFont("Arial", "B", 11);
-            $pdf -> Cell(250, 5, "Bol.Calif. " . $alumn_data[0]['ident'], 0, 1, 'C');
-
-            
-
+$pdf -> SetMargins(25.4, 25.4 , 25.4, 25.4);
 $pdf -> SetFont("Times", "B", 14);
 $pdf -> Cell(180, 10, "BOLETA DE CALIFICACIONES", 0, 1, 'C');
 $pdf -> SetFont("Arial", "B", 10);
+
 $pdf -> SetX(25.5);
 
     $fontSize = 10;
@@ -99,33 +107,32 @@ $pdf -> SetX(25.5);
 $pdf -> SetX(138.4);
 $pdf -> Cell(60, 5, "Reg. " . $alumn_data[0]['ident'],  60, 1, "L");
 $pdf -> SetX(25.4);
-$pdf -> Cell(30, 5, $grade2 . " grado", 0, 0);
+$pdf -> Cell(30, 5, $grade2 . " grado de Bachillerato Tecnico Profesional", 0, 0);
 $pdf -> SetX(138.4);
-$pdf -> Cell(101.5, 5, "Año: " . date("Y"),  60, 1, "L");
+$pdf -> Cell(101.5, 5, "Año 2021",  60, 1, "L");
 $pdf -> Ln(10);
 $pdf -> SetX(0);
 
 
-$pdf -> SetX(101);
-$pdf -> Cell(100, 10, "Nota por Parcial", 1,  100, 1, 0, "C");
-$pdf -> SetX(15);
+$pdf -> SetX(80);
+$pdf -> Cell(100, 10, "Nota por Parcial II Semestre", 1,  100, 1, 0, "C");
+$pdf -> SetX(26);
 $pdf -> Cell(10, 10, "N`", 1,  0, "C", 0, 0);
 $pdf -> Cell(62, 10, "Asignatura", 1,  0, "C",  0, 0);
 $pdf -> Cell(16, 10, "I", 1,  0, "C",  0, 0);
 $pdf -> Cell(16, 10, "II", 1,  0, "C",  0, 0);
-$pdf -> Cell(16, 10, "III", 1,  0, "C",  0, 0);
-$pdf -> Cell(16, 10, "IV", 1,  0, "C",  0, 0);
 $pdf -> Cell(22, 10, "Promedio", 1,  0, "C",  0, 0);
 $pdf -> Cell(28, 10, "Recuperacion", 1,  1, "C",  0, 0);
 
 $grade = $alumn_data[0]['grade'];
+$g = $grade . '.5';
 
-$subjects = mysqli_query($conn, "SELECT * FROM asignaturas WHERE grade = $grade");
+$subjects = mysqli_query($conn, "SELECT * FROM asignaturas WHERE grade = $g");
 
 $i = 0;
 while($rows = mysqli_fetch_assoc($subjects)){
     $i++;
-    $pdf -> SetX(15);
+    $pdf -> SetX(26);
     $pdf -> Cell(10, 10, "$i", 1,  0, "C",  0, 0);
 
     $fontSize = 10;
@@ -144,11 +151,9 @@ while($rows = mysqli_fetch_assoc($subjects)){
 
     $pp_checker = false;
     $sp_checker = false;
-    $tp_checker = false;
-    $cp_checker = false;
 
     $subject = $rows['subject'];
-    $notas = mysqli_query($conn, "SELECT * FROM primer_parcial WHERE student_id = $id AND `subject` = '$subject'");
+    $notas = mysqli_query($conn, "SELECT * FROM tercer_parcial WHERE student_id = $id AND `subject` = '$subject'");
     if(mysqli_num_rows($notas) > 0){
         $pp = mysqli_fetch_Assoc($notas);
         $pdf -> Cell(16, 10, $pp['nota'] . "%", 1,  0, "C",  0, 0);
@@ -157,7 +162,7 @@ while($rows = mysqli_fetch_assoc($subjects)){
         $pdf -> Cell(16, 10,"", 1,  0, "C",  0, 0);
     }
 
-    $notas2 = mysqli_query($conn, "SELECT * FROM segundo_parcial WHERE student_id = $id AND `subject` = '$subject'");
+    $notas2 = mysqli_query($conn, "SELECT * FROM cuarto_parcial WHERE student_id = $id AND `subject` = '$subject'");
     if(mysqli_num_rows($notas2) > 0){
         $sp = mysqli_fetch_Assoc($notas2);
         $pdf -> Cell(16, 10, $sp['nota'] . "%", 1,  0, "C",  0, 0);
@@ -166,26 +171,8 @@ while($rows = mysqli_fetch_assoc($subjects)){
         $pdf -> Cell(16, 10, "", 1,  0, "C",  0, 0);
     }
 
-    $notas3 = mysqli_query($conn, "SELECT * FROM tercer_parcial WHERE student_id = $id AND `subject` = '$subject'");
-    if(mysqli_num_rows($notas3) > 0){
-        $tp = mysqli_fetch_Assoc($notas3);
-        $pdf -> Cell(16, 10, $tp['nota'] . "%", 1,  0, "C",  0, 0);
-        $tp_checker = true;
-    }else{
-        $pdf -> Cell(16, 10, "", 1,  0, "C",  0, 0);
-    }
-
-    $notas4 = mysqli_query($conn, "SELECT * FROM cuarto_parcial WHERE student_id = $id AND `subject` = '$subject'");
-    if(mysqli_num_rows($notas4) > 0){
-        $cp = mysqli_fetch_Assoc($notas4);
-        $pdf -> Cell(16, 10, $cp['nota'] . "%", 1,  0, "C",  0, 0);
-        $cp_checker = true;
-    }else{
-        $pdf -> Cell(16, 10, "", 1,  0, "C",  0, 0);
-    }
-
-    if($pp_checker == true && $sp_checker && $tp_checker == true && $cp_checker == true){
-        $promedio = (intval($pp['nota'] + intval($sp['nota']) + intval($tp['nota']) + intval($cp['nota'])) / 4);
+    if($pp_checker == true && $sp_checker == true){
+        $promedio = (intval($pp['nota'] + intval($sp['nota'])) / 2);
         $pdf -> Cell(22, 10, $promedio . "%", 1,  0, "C",  0, 0);
     }else{
         $pdf -> Cell(22, 10, "", 1,  0, "C",  0, 0);
@@ -194,6 +181,7 @@ while($rows = mysqli_fetch_assoc($subjects)){
     
     $pdf -> Cell(28, 10, "", 1,  1, "C",  0, 0);
 }
+
     $pdf -> SetY(225);
     $pdf -> SetX(30);
     $pdf -> SetLineWidth(0.1);

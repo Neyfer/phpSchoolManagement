@@ -1,27 +1,16 @@
 <?php
 include "mysql.php";
-$grado = $_GET["id"];
+$id = $_GET["id"];
+$alumn_data = null;
 
-$query = mysqli_query($conn, "SELECT * FROM students WHERE id = $grado");
-
-require("fpdf/fpdf.php");
-    
-$pdf = new FPDF();
-while($rows = mysqli_fetch_assoc($query)){
-    
-            $id = $rows["id"];
-
-        
-    $alumn_data = null;
-
-$alumnos = mysqli_query($conn, "SELECT * FROM students WHERE id = $grado");
+$alumnos = mysqli_query($conn, "SELECT * FROM students WHERE id = $id");
 
 while($rows = mysqli_fetch_assoc($alumnos)){
     $alumn_data[] = $rows; 
 }
 
-
-
+require("fpdf/fpdf.php");
+$pdf = new FPDF();
 
     $grade = $alumn_data[0]['grade'];
     $grade2 = null;
@@ -105,7 +94,7 @@ $pdf -> Cell(60, 5, "Reg. " . $alumn_data[0]['ident'],  60, 1, "L");
 $pdf -> SetX(25.4);
 $pdf -> Cell(30, 5, $grade2 . " grado", 0, 0);
 $pdf -> SetX(138.4);
-$pdf -> Cell(101.5, 5, "Año " . date("Y"),  60, 1, "L");
+$pdf -> Cell(101.5, 5, "Año: " . date("Y"),  60, 1, "L");
 $pdf -> Ln(10);
 $pdf -> SetX(0);
 
@@ -214,6 +203,6 @@ while($rows = mysqli_fetch_assoc($subjects)){
     $pdf -> Cell(60, 5, "Lic. Hernan Madrid Barrera", 0,  1, "C",  0, 0);
     $pdf -> SetX(117);
     $pdf -> Cell(60, 5, "Director", 0,  1, "C",  0, 0);
-}
+
 
 $pdf -> Output();

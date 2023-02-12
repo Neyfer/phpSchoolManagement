@@ -68,6 +68,8 @@
                                 <button class="form-control btn  btn-dark" id="generate">Generar</button>
 
                             </form>
+
+                            <footer style="text-align:center;">Copyright &copy 2023 by Neyfer Coto - All Rights Reserved</footer>
                     </div>
 
                     <style>
